@@ -43,7 +43,7 @@
 <!-- 					notice.getNoticeNo() -->
 						<td>${notice.noticeNo }</td>
 <!-- 					notice.getNoticeSubject() -->
-						<td>${notice.noticeSubject }</td>
+						<td><a href="/notice/detail.do?noticeNo=${notice.noticeNo }">${notice.noticeSubject }</a></td>
 <!-- 					notice.getNoticeWriter() -->
 						<td>${notice.noticeWriter }</td>
 						<td>${notice.noticeDate }</td>

@@ -32,7 +32,7 @@ public class NoticeDAO {
 	public List<Notice> selectNoticeList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT * FROM NOTICE_TBL";
+		String query = "SELECT * FROM NOTICE_TBL ORDER BY NOTICE_DATE DESC";
 		List<Notice> nList= new ArrayList<Notice>();
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -54,6 +54,24 @@ public class NoticeDAO {
 		}
 		
 		return nList;
+	}
+
+	public Notice selectOneByNo(Connection conn, int noticeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = ?";
+		Notice notice = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				notice = rsetToNotice(rset); 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return notice;
 	}
 
 	private Notice rsetToNotice(ResultSet rset) throws SQLException {

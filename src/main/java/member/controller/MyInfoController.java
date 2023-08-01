@@ -42,7 +42,7 @@ public class MyInfoController extends HttpServlet {
 		Member member = service.selectOneById(memberId);
 		request.setAttribute("member", member); // 꼭 안써줘도 되지만 일반적으로 같이 씀 
 		// 앞은 키값이라 "" 뒤는 변수명 
-		RequestDispatcher view = request.getRequestDispatcher("/member/myInfo.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/myInfo.jsp");
 		view.forward(request, response);
 		// 2. without Data(단순 페이지 이동)
 //		response.sendRedirect("/member/myinfo.jsp");

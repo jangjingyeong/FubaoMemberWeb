@@ -13,16 +13,16 @@ import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
 
 /**
- * Servlet implementation class InsertController
+ * Servlet implementation class DetailController
  */
-@WebServlet("/notice/insert.do")
-public class InsertController extends HttpServlet {
+@WebServlet("/notice/detail.do")
+public class DetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertController() {
+    public DetailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,29 +31,27 @@ public class InsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/views/notice/insert.jsp").forward(request, response);;
+		// SELECT * FROM NOTICE_TBL WHERE NOTICENO = ?
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		NoticeService service = new NoticeService();
+		Notice notice = service.selectOneByNo(noticeNo);
+		if(notice != null) {
+			// 상세페이지로 이동 
+			request.setAttribute("noticeOne", notice);
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/detail.jsp");
+			view.forward(request, response);
+		} else {
+			// 실패페이지로 이동
+			request.setAttribute("msg", "데이터가 존재하지 않습니다.");
+			request.getRequestDispatcher("/WEB-INF/views/member/serviceFailed.jsp").forward(request, response);
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8"); // 한글 인코딩 처리 
-		NoticeService service = new NoticeService();
-		String noticeSubject = request.getParameter("noticeSubject");
-		String noticeContent = request.getParameter("noticeContent");
-		Notice notice = new Notice(noticeSubject, noticeContent);
-		int result = service.insertNotice(notice);
-		if(result > 0) {
-			// 성공! 하면 공지사항 리스트로 이동~ 
-			response.sendRedirect("/notice/list.do");
-		} else {
-			// 실패.. 하면 실패메시지 출력 
-			request.setAttribute("msg", "공지사항 등록이 완료되지 않았습니다.");
-			RequestDispatcher view 
-			= request.getRequestDispatcher("/member/serviceFailed.jsp");
-			view.forward(request, response);
-		}
+		doGet(request, response);
 	}
 
 }

@@ -38,4 +38,12 @@ public class NoticeService {
 		return nList;
 	}
 
+	// 공지사항 상세내용 조회
+	public Notice selectOneByNo(int noticeNo) {
+		Connection conn = jdbcTemplate.createConnection();
+		Notice notice = nDao.selectOneByNo(conn, noticeNo);
+		jdbcTemplate.close(conn);
+		return notice;
+	}
+
 }
