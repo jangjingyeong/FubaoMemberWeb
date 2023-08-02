@@ -14,9 +14,17 @@ public class Notice {
 	public Notice() {}
 	
 	
-	
+	// 글작성용
 	public Notice(String noticeSubject, String noticeContent) {
 		super();
+		this.noticeSubject = noticeSubject;
+		this.noticeContent = noticeContent;
+	}
+
+	// 글수정용
+	public Notice(int noticeNo, String noticeSubject, String noticeContent) {
+		super();
+		this.noticeNo = noticeNo;
 		this.noticeSubject = noticeSubject;
 		this.noticeContent = noticeContent;
 	}

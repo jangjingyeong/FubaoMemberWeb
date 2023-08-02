@@ -51,7 +51,7 @@ public class InsertController extends HttpServlet {
 			// 실패.. 하면 실패메시지 출력 
 			request.setAttribute("msg", "공지사항 등록이 완료되지 않았습니다.");
 			RequestDispatcher view 
-			= request.getRequestDispatcher("/member/serviceFailed.jsp");
+			= request.getRequestDispatcher("/WEB-INF/views/common/serviceFailed.jsp");
 			view.forward(request, response);
 		}
 	}

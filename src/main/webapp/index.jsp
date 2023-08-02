@@ -8,6 +8,7 @@
 		<title>푸바오 멤버 웹</title>
 	</head>
 	<body>
+		<jsp:include page="./header.html"></jsp:include>
 		<h1>푸바오 멤버 웹!</h1>
 		<h2>로그인 페이지</h2>
 		<c:if test="${sessionScope.memberId !=null }">

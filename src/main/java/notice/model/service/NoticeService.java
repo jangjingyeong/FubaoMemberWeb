@@ -6,6 +6,7 @@ import java.util.List;
 import common.JDBCTemplate;
 import notice.model.dao.NoticeDAO;
 import notice.model.vo.Notice;
+import notice.model.vo.PageData;
 
 public class NoticeService {
 	
@@ -30,12 +31,41 @@ public class NoticeService {
 		return result;
 	}
 	
-	// 공지사항 전체 목록 조회
-	public List<Notice> selectNoticeList() {
+	public int updateNotice(Notice notice) {
 		Connection conn = jdbcTemplate.createConnection();
-		List<Notice> nList = nDao.selectNoticeList(conn);
+		int result = nDao.updateNotice(conn, notice);
+		if(result > 0) {
+			jdbcTemplate.commit(conn);
+		} else {
+			jdbcTemplate.rollback(conn);
+		}
 		jdbcTemplate.close(conn);
-		return nList;
+		return result;
+	}
+
+	// 공지사항 삭제
+	public int deleteNoticeByNo(int noticeNo) {
+		Connection conn = jdbcTemplate.createConnection();
+		int result = nDao.deleteNoticeByNo(conn, noticeNo);
+		if(result > 0) {
+			jdbcTemplate.commit(conn);
+		} else {
+			jdbcTemplate.rollback(conn);
+		}
+		jdbcTemplate.close(conn);
+		return result;
+	}
+
+	// 공지사항 전체 목록 조회
+	public PageData selectNoticeList(int currentPage) {
+		Connection conn = jdbcTemplate.createConnection();
+		List<Notice> nList = nDao.selectNoticeList(conn, currentPage);
+		String pageNavi = nDao.generatePageNavi(currentPage);
+		// 1. Map이용
+		// 2. VO클래스 이용
+		PageData pd = new PageData(nList, pageNavi);
+		jdbcTemplate.close(conn);
+		return pd;
 	}
 
 	// 공지사항 상세내용 조회
